@@ -162,7 +162,7 @@ namespace Datorgrafik_lab1
             device.Clear(Color.DarkSlateBlue);
 
 
-            modelSystem.Draw(gameTime);
+            modelSystem.Draw(effect, gameTime);
 
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
@@ -181,8 +181,10 @@ namespace Datorgrafik_lab1
             ulong id = ComponentManager.GetNewId();
             TransformComponent transform = new TransformComponent(new Vector3(200.0f, 300.0f, 100.0f), 0f, 10f);
 
+            Model model = Content.Load<Model>(@"Models/Chopper");
+            
             ComponentManager.StoreComponent(id, CameraSystem.Instance.camera);
-            ComponentManager.StoreComponent(id, new ModelComponent(GraphicsDevice, Content.Load<Model>(@"Models/Chopper")));
+            ComponentManager.StoreComponent(id, new ModelComponent(GraphicsDevice, model) {world = Matrix.Identity });
             ComponentManager.StoreComponent(id, transform);
             //ComponentManager.StoreComponent(id, Controller);
 

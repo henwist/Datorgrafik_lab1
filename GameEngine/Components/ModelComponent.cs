@@ -11,7 +11,7 @@ namespace GameEngine.Components
     public class ModelComponent : DrawableComponent
     {
         public Model model { get; protected set; }
-        public Matrix world { get; protected set; }
+        public Matrix world { get; set; }
 
         public Matrix scale { get; protected set; }
         public Matrix translation { get; protected set; }

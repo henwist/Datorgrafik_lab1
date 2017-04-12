@@ -33,7 +33,7 @@ namespace GameEngine.Systems
             
         }
 
-        public void Draw(GameTime gametime)
+        public void Draw(BasicEffect effect, GameTime gametime)
         {
             List<ulong> models = ComponentManager.GetAllEntitiesWithComp<ModelComponent>();
 
@@ -51,8 +51,11 @@ namespace GameEngine.Systems
                     foreach (BasicEffect be in mesh.Effects)
                     {
                         be.EnableDefaultLighting();
+                        be.LightingEnabled = true;
+
                         be.Projection = camera.projectionMatrix;
                         be.View = camera.viewMatrix;
+                        
                         be.World = model.world * mesh.ParentBone.Transform * model.translation * model.scale;
                     }
                     mesh.Draw();
