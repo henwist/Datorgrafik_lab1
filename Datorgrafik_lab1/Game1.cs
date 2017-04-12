@@ -73,7 +73,7 @@ namespace Datorgrafik_lab1
             grass = Content.Load<Texture2D>("Textures/grass");
 
             _view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-            _projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 4.0f / 3.0f, 1, 3000);
+            _projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, GraphicsDevice.Viewport.AspectRatio, 1, 50000f);
 
             setEffectOptions();
 

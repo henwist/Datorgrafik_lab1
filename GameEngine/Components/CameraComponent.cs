@@ -29,7 +29,7 @@ namespace GameEngine.Components
             cameraDirection.Normalize();
             cameraUp = up;
             CreateLookAt();
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, game.GraphicsDevice.Viewport.AspectRatio, 1.0f, 500.0f);
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, game.GraphicsDevice.Viewport.AspectRatio, 1.0f, 50000.0f);
         }
 
         public override void Initialize()

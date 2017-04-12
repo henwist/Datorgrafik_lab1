@@ -54,6 +54,7 @@ namespace GameEngine.Systems
                         be.LightingEnabled = true;
 
                         be.Projection = camera.projectionMatrix;
+                        System.Diagnostics.Debug.WriteLine(camera.viewMatrix.Translation);
                         be.View = camera.viewMatrix;
                         
                         be.World = model.world * mesh.ParentBone.Transform * model.translation * model.scale;
