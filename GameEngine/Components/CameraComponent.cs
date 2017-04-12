@@ -20,7 +20,7 @@ namespace GameEngine.Components
         public Vector3 cameraDirection { get; set; }
         public Vector3 cameraUp { get; set; }
 
-        float speed = 3f;
+
 
         public CameraComponent(Game game, Vector3 position, Vector3 target, Vector3 up)
         {
@@ -37,20 +37,20 @@ namespace GameEngine.Components
             base.Initialize();
         }
 
-        public override void Update(GameTime gametime)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-                cameraPosition += cameraDirection * speed;
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-                cameraPosition -= cameraDirection * speed;
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-                cameraPosition += Vector3.Cross(cameraUp, cameraDirection) * speed;
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-                cameraPosition -= Vector3.Cross(cameraUp, cameraDirection) * speed;
-            CreateLookAt();
+        //public override void Update(GameTime gametime)
+        //{
+        //    if (Keyboard.GetState().IsKeyDown(Keys.W))
+        //        cameraPosition += cameraDirection * speed;
+        //    if (Keyboard.GetState().IsKeyDown(Keys.S))
+        //        cameraPosition -= cameraDirection * speed;
+        //    if (Keyboard.GetState().IsKeyDown(Keys.D))
+        //        cameraPosition += Vector3.Cross(cameraUp, cameraDirection) * speed;
+        //    if (Keyboard.GetState().IsKeyDown(Keys.A))
+        //        cameraPosition -= Vector3.Cross(cameraUp, cameraDirection) * speed;
+        //    CreateLookAt();
 
-            base.Update(gametime);
-        }
+        //    base.Update(gametime);
+        //}
 
         public void CreateLookAt()
         {

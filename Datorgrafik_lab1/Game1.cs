@@ -112,9 +112,11 @@ namespace Datorgrafik_lab1
 
             angle += 0.005f;
 
-            cameraSystem.Update(gameTime);
-            modelSystem.camera = cameraSystem.camera;
+
             transformSystem.Update(gameTime);
+            modelSystem.camera = cameraSystem.camera;
+            cameraSystem.Update(gameTime);
+
 
 
             base.Update(gameTime);

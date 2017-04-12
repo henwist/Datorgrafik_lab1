@@ -11,10 +11,10 @@ namespace GameEngine.Components
     public class ModelComponent : DrawableComponent
     {
         public Model model { get; protected set; }
-        protected Matrix world = Matrix.Identity;
+        public Matrix world { get; protected set; }
 
-        private Matrix scale;
-        private Matrix translation;
+        public Matrix scale { get; protected set; }
+        public Matrix translation { get; protected set; }
 
         public ModelComponent(GraphicsDevice device, Model m) : base(device)
         {
@@ -28,23 +28,23 @@ namespace GameEngine.Components
 
         }
 
-        public override void Draw(GameTime gametime, CameraComponent camera)
-        {
-            Matrix[] transforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(transforms);
+        //public override void Draw(GameTime gametime, CameraComponent camera)
+        //{
+        //    Matrix[] transforms = new Matrix[model.Bones.Count];
+        //    model.CopyAbsoluteBoneTransformsTo(transforms);
 
-            foreach (ModelMesh mesh in model.Meshes)
-            {
-                foreach(BasicEffect be in mesh.Effects)
-                {
-                    be.EnableDefaultLighting();
-                    be.Projection = camera.projectionMatrix;
-                    be.View = camera.viewMatrix;
-                    be.World = world * mesh.ParentBone.Transform * translation * scale;
-                }
-                mesh.Draw();
-            }
-        }
+        //    foreach (ModelMesh mesh in model.Meshes)
+        //    {
+        //        foreach(BasicEffect be in mesh.Effects)
+        //        {
+        //            be.EnableDefaultLighting();
+        //            be.Projection = camera.projectionMatrix;
+        //            be.View = camera.viewMatrix;
+        //            be.World = world * mesh.ParentBone.Transform * translation * scale;
+        //        }
+        //        mesh.Draw();
+        //    }
+        //}
 
     }
 }

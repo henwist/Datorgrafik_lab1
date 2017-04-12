@@ -9,6 +9,7 @@ namespace GameEngine.Components
 {
     public class TransformComponent : Component
     {
+        public Matrix World;
         public Vector3 position;
         public float rotation;
         public float scale;
