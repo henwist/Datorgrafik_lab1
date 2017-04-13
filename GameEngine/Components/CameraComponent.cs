@@ -39,14 +39,14 @@ namespace GameEngine.Components
 
         public override void Update(GameTime gametime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-                cameraPosition += cameraDirection * speed;
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-                cameraPosition -= cameraDirection * speed;
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-                cameraPosition += Vector3.Cross(cameraUp, cameraDirection) * speed;
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-                cameraPosition -= Vector3.Cross(cameraUp, cameraDirection) * speed;
+            //if (Keyboard.GetState().IsKeyDown(Keys.W))
+            //    cameraPosition += cameraDirection * speed;
+            //if (Keyboard.GetState().IsKeyDown(Keys.S))
+            //    cameraPosition -= cameraDirection * speed;
+            //if (Keyboard.GetState().IsKeyDown(Keys.D))
+            //    cameraPosition += Vector3.Cross(cameraUp, cameraDirection) * speed;
+            //if (Keyboard.GetState().IsKeyDown(Keys.A))
+            //    cameraPosition -= Vector3.Cross(cameraUp, cameraDirection) * speed;
             CreateLookAt();
 
             base.Update(gametime);
