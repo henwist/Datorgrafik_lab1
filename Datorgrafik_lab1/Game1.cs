@@ -26,6 +26,7 @@ namespace Datorgrafik_lab1
 
         float radx = 0f;
         float scale = 1f;
+        float rotation = 0.1f;
 
         Texture2D grass;
 
@@ -111,8 +112,9 @@ namespace Datorgrafik_lab1
         {
         }
 
-        float rotation = 0.1f;
-        protected override void Update(GameTime gameTime)
+
+
+        private void rotateRotors()
         {
             Quaternion q;
 
@@ -123,17 +125,10 @@ namespace Datorgrafik_lab1
             quaternion_tail.Normalize();
 
             rotation += 0.00001f;
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            angle += 0.005f;
-
-
-            transformSystem.Update(gameTime);
-            modelSystem.camera = cameraSystem.camera;
-            cameraSystem.Update(gameTime);
 
             ModelComponent chopper = ComponentManager.GetComponent<ModelComponent>(CHOPPERID);
+            CameraComponent camera = ComponentManager.GetComponent<CameraComponent>(CHOPPERID);
+            TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(CHOPPERID);
 
             foreach (ModelMesh mesh in chopper.model.Meshes)
             {
@@ -157,6 +152,23 @@ namespace Datorgrafik_lab1
 
             }
 
+        }
+
+
+        protected override void Update(GameTime gameTime)
+        {
+
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.Exit();
+
+            angle += 0.005f;
+
+
+            transformSystem.Update(gameTime);
+            modelSystem.camera = cameraSystem.camera;
+            cameraSystem.Update(gameTime);
+
+            rotateRotors();
 
                 base.Update(gameTime);
 
