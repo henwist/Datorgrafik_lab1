@@ -63,7 +63,7 @@ namespace GameEngine.Systems
                 //    transform.rotation += transform.speed;
                 //    //camera.cameraPosition -= Vector3.Cross(camera.cameraUp, camera.cameraDirection) * transform.speed;
 
-                camera.CreateLookAt();
+                //camera.CreateLookAt();
             }
         }
     }

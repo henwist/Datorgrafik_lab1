@@ -23,14 +23,14 @@ namespace GameEngine.Components
 
         float sinvalue = 0.1f;
 
-        public CameraComponent(Game game, Vector3 position, Vector3 target, Vector3 up)
+        public CameraComponent(GraphicsDevice gd, Vector3 position, Vector3 target, Vector3 up)
         {
             cameraPosition = position;
             cameraDirection = target - position;
             cameraDirection.Normalize();
             cameraUp = up;
             CreateLookAt();
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, game.GraphicsDevice.Viewport.AspectRatio, 1.0f, 50000.0f);
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, gd.Viewport.AspectRatio, 1.0f, 50000.0f);
         }
 
         public override void Initialize()

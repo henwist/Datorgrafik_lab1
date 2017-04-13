@@ -18,21 +18,16 @@ namespace Datorgrafik_lab1
 
         BasicEffect effect;
 
-        private float angle = 0f;
-
         private Matrix _view, _projection;
 
         private Vector3 cameraPosition = new Vector3(200.0f, 200.0f, 100.0f);
 
-        float radx = 0f;
-        float scale = 1f;
         float rotation = 0.1f;
 
         Texture2D grass;
 
         private SceneManager sceneManager;
         private ModelSystem modelSystem;
-        private CameraSystem cameraSystem;
         private TransformSystem transformSystem;
 
         private Controller controller;
@@ -53,17 +48,12 @@ namespace Datorgrafik_lab1
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
             graphics.IsFullScreen = false;
-            
             graphics.ApplyChanges();
 
-            cameraSystem = CameraSystem.Instance;
             modelSystem = ModelSystem.Instance;
             transformSystem = TransformSystem.Instance;
 
-            cameraSystem.setUpCamera(this, cameraPosition, Vector3.Zero, Vector3.Up);
-            modelSystem.camera = cameraSystem.camera;
-
-            createGameEntity();
+            createGameEntities();
 
             base.Initialize();
         }
@@ -118,52 +108,26 @@ namespace Datorgrafik_lab1
         private void rotateRotors()
         {
             Quaternion q;
-
-            Quaternion quaternion_main = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(rotation));
-            quaternion_main.Normalize();
-
-            Quaternion quaternion_tail = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(rotation));
-            quaternion_tail.Normalize();
+            Quaternion quaternion = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(rotation));
+            quaternion.Normalize();
 
             rotation += 0.00001f;
 
             ModelComponent chopper = ComponentManager.GetComponent<ModelComponent>(CHOPPERID);
-            CameraComponent camera = ComponentManager.GetComponent<CameraComponent>(CHOPPERID);
-            TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(CHOPPERID);
 
             foreach (ModelMesh mesh in chopper.model.Meshes)
             {
 
-                if (mesh.ParentBone.Index == (int)meshindex.main_rotor)
+                if ((mesh.ParentBone.Index == (int)meshindex.main_rotor) || (mesh.ParentBone.Index == (int)meshindex.tail_rotor))
                 {
-                    q = mesh.ParentBone.Transform.Rotation * quaternion_main;
+                    q = mesh.ParentBone.Transform.Rotation * quaternion;
                     q.Normalize();
-                    mesh.ParentBone.Transform = Matrix.CreateTranslation(mesh.ParentBone.Transform.Translation)
-                                               * Matrix.CreateFromQuaternion(q);
+                    mesh.ParentBone.Transform = Matrix.CreateFromQuaternion(q) 
+                                                * Matrix.CreateTranslation(mesh.ParentBone.Transform.Translation);
                 }
-
-                if (mesh.ParentBone.Index == (int)meshindex.tail_rotor)
-                {
-                    q = mesh.ParentBone.Transform.Rotation * quaternion_tail;
-                    q.Normalize();
-                    mesh.ParentBone.Transform =
-                                               Matrix.CreateFromQuaternion(q)
-                                               * Matrix.CreateTranslation(mesh.ParentBone.Transform.Translation);
-                }
-
             }
-
         }
 
-        private void moveCameraWithModel()
-        {
-            ModelComponent chopper = ComponentManager.GetComponent<ModelComponent>(CHOPPERID);
-            CameraComponent camera = ComponentManager.GetComponent<CameraComponent>(CHOPPERID);
-            TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(CHOPPERID);
-
-            camera.cameraPosition = transform.position;
-
-        }
 
         private void moveChopper()
         {
@@ -179,19 +143,13 @@ namespace Datorgrafik_lab1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            angle += 0.005f;
-
-
             transformSystem.Update(gameTime);
-            modelSystem.camera = cameraSystem.camera;
-            cameraSystem.Update(gameTime);
+            CameraSystem.Instance.Update(gameTime);
 
             moveChopper();
             rotateRotors();
 
-            moveCameraWithModel();
-
-                base.Update(gameTime);
+           base.Update(gameTime);
 
         }
 
@@ -203,33 +161,35 @@ namespace Datorgrafik_lab1
             Window.Title = "Controller keys: a,d,s,w, LShift, Space. Av: Rasmus Lundquist (S142465) och Henrik Wistbacka(S142066)";
 
             modelSystem.Draw(effect, gameTime);
+            sceneManager.Draw(effect, gameTime);
+
+            CameraComponent camera = ComponentManager.GetComponent<CameraComponent>(CHOPPERID);
 
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
 
-                effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up) * Matrix.CreateTranslation(-radx, 0, 0);
-
-                sceneManager.Draw(effect, gameTime);
+                effect.View = Matrix.CreateLookAt(camera.cameraPosition, 
+                                                  camera.cameraDirection, camera.cameraUp);
             }
 
             base.Draw(gameTime);
         }
 
-        public ulong createGameEntity()
+
+        public void createGameEntities()
         {
             ulong id = ComponentManager.GetNewId();
             TransformComponent transform = new TransformComponent(new Vector3(200.0f, 300.0f, 100.0f), 0f, 10f);
 
             Model model = Content.Load<Model>(@"Models/Chopper");
-            
-            ComponentManager.StoreComponent(id, CameraSystem.Instance.camera);
+            CameraComponent camera = new CameraComponent(graphics.GraphicsDevice, cameraPosition, Vector3.Zero, Vector3.Up);
+
+            ComponentManager.StoreComponent(id, camera);
             ComponentManager.StoreComponent(id, new ModelComponent(GraphicsDevice, model) {world = Matrix.Identity });
             ComponentManager.StoreComponent(id, transform);
-            //ComponentManager.StoreComponent(id, Controller);
-
-            return id;
         }
+
 
         private void setupController()
         {
@@ -243,7 +203,6 @@ namespace Datorgrafik_lab1
             controller.AddBinding(Keys.D, new Vector3(0, 0, 1));
             controller.AddBinding(Keys.A, new Vector3(0, 0, -1));
         }
-
 
 
         private enum meshindex : int

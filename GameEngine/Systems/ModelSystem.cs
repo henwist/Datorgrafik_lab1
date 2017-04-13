@@ -15,7 +15,7 @@ namespace GameEngine.Systems
         private static ModelSystem instance;
 
         
-        public CameraComponent camera;
+        //public CameraComponent camera;
         
 
         public static ModelSystem Instance
