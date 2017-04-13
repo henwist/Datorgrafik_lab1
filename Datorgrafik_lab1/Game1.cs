@@ -196,12 +196,12 @@ namespace Datorgrafik_lab1
 
             controller = new Controller(scaleMove);
 
-            controller.AddBinding(Keys.S, new Vector3(-1, 0, 0));
-            controller.AddBinding(Keys.W, new Vector3(1, 0, 0));
-            controller.AddBinding(Keys.Space, new Vector3(0, 1, 0));
-            controller.AddBinding(Keys.LeftShift, new Vector3(0, -1, 0));
-            controller.AddBinding(Keys.D, new Vector3(0, 0, 1));
-            controller.AddBinding(Keys.A, new Vector3(0, 0, -1));
+            controller.AddBinding(Keys.W, new Vector3(-1, 0, 0));
+            controller.AddBinding(Keys.S, new Vector3(1, 0, 0));
+            controller.AddBinding(Keys.LeftShift, new Vector3(0, 1, 0));
+            controller.AddBinding(Keys.Space, new Vector3(0, -1, 0));
+            controller.AddBinding(Keys.A, new Vector3(0, 0, 1));
+            controller.AddBinding(Keys.D, new Vector3(0, 0, -1));
         }
 
 
