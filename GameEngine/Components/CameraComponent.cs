@@ -21,6 +21,7 @@ namespace GameEngine.Components
         public Vector3 cameraUp { get; set; }
 
 
+        float sinvalue = 0.1f;
 
         public CameraComponent(Game game, Vector3 position, Vector3 target, Vector3 up)
         {
@@ -54,7 +55,8 @@ namespace GameEngine.Components
 
         public void CreateLookAt()
         {
-            viewMatrix = Matrix.CreateLookAt(cameraPosition, cameraPosition + cameraDirection, cameraUp);
+            sinvalue += 0.01f;
+            viewMatrix = Matrix.CreateLookAt(cameraPosition + new Vector3((float)Math.Sin(sinvalue)*4, 0,0), cameraPosition + cameraDirection, cameraUp);
         }
     }
 }

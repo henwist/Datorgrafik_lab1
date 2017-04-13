@@ -36,7 +36,7 @@ namespace Datorgrafik_lab1
         private TransformSystem transformSystem;
 
         private Controller controller;
-        private float scaleMove = 1.0f; //used to scale movements if move is to fast or slow.
+        private float scaleMove = 0.5f; //used to scale movements if move is to fast or slow in controller.
 
         private ulong CHOPPERID = 1;
 
@@ -53,6 +53,7 @@ namespace Datorgrafik_lab1
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
             graphics.IsFullScreen = false;
+            
             graphics.ApplyChanges();
 
             cameraSystem = CameraSystem.Instance;
@@ -82,7 +83,7 @@ namespace Datorgrafik_lab1
 
             sceneManager = new SceneManager(graphics.GraphicsDevice, effect.World);
 
-            controller = new Controller(scaleMove);
+            setupController();
 
         }
 
@@ -154,6 +155,23 @@ namespace Datorgrafik_lab1
 
         }
 
+        private void moveCameraWithModel()
+        {
+            ModelComponent chopper = ComponentManager.GetComponent<ModelComponent>(CHOPPERID);
+            CameraComponent camera = ComponentManager.GetComponent<CameraComponent>(CHOPPERID);
+            TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(CHOPPERID);
+
+            camera.cameraPosition = transform.position;
+
+        }
+
+        private void moveChopper()
+        {
+            TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(CHOPPERID);
+
+            transform.position += controller.GetNextMove();
+        }
+
 
         protected override void Update(GameTime gameTime)
         {
@@ -168,38 +186,13 @@ namespace Datorgrafik_lab1
             modelSystem.camera = cameraSystem.camera;
             cameraSystem.Update(gameTime);
 
+            moveChopper();
             rotateRotors();
+
+            moveCameraWithModel();
 
                 base.Update(gameTime);
 
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-                cameraPosition.X += 1.0f;
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                cameraPosition.X -= 1.0f;
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-                cameraPosition.Y += 1.0f;
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-                cameraPosition.Y -= 1.0f;
-
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-                radx += 0.1f;
-
-            //if (Keyboard.GetState().IsKeyDown(Keys.S))
-            //    rady += 0.1f;
-
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-                radx += 0.1f;
-
-            //if (Keyboard.GetState().IsKeyDown(Keys.W))
-            //    scale += 0.01f;
-
-
-            if (Keyboard.GetState().IsKeyDown(Keys.E))
-                scale -= 0.01f;
         }
 
 
@@ -207,6 +200,7 @@ namespace Datorgrafik_lab1
         {
             device.Clear(Color.DarkSlateBlue);
 
+            Window.Title = "Controller keys: a,d,s,w, LShift, Space. Av: Rasmus Lundquist (S142465) och Henrik Wistbacka(S142066)";
 
             modelSystem.Draw(effect, gameTime);
 
@@ -235,6 +229,19 @@ namespace Datorgrafik_lab1
             //ComponentManager.StoreComponent(id, Controller);
 
             return id;
+        }
+
+        private void setupController()
+        {
+
+            controller = new Controller(scaleMove);
+
+            controller.AddBinding(Keys.S, new Vector3(-1, 0, 0));
+            controller.AddBinding(Keys.W, new Vector3(1, 0, 0));
+            controller.AddBinding(Keys.Space, new Vector3(0, 1, 0));
+            controller.AddBinding(Keys.LeftShift, new Vector3(0, -1, 0));
+            controller.AddBinding(Keys.D, new Vector3(0, 0, 1));
+            controller.AddBinding(Keys.A, new Vector3(0, 0, -1));
         }
 
 
