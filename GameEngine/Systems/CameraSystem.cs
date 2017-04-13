@@ -52,14 +52,14 @@ namespace GameEngine.Systems
                 Vector3 transformedRef = Vector3.Transform(curCam.cameraDirection, rotation);
                 curCam.viewMatrix = Matrix.CreateLookAt(curCam.cameraPosition, curCam.cameraPosition + transformedRef, Vector3.Up);
 
-                if (Keyboard.GetState().IsKeyDown(Keys.W))
-                    curCam.cameraPosition += curCam.cameraDirection * transform.speed;
-                if (Keyboard.GetState().IsKeyDown(Keys.S))
-                    curCam.cameraPosition -= curCam.cameraDirection * transform.speed;
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
-                    curCam.cameraPosition += Vector3.Cross(curCam.cameraUp, curCam.cameraDirection) * transform.speed;
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
-                    curCam.cameraPosition -= Vector3.Cross(curCam.cameraUp, curCam.cameraDirection) * transform.speed;
+                //if (Keyboard.GetState().IsKeyDown(Keys.W))
+                //    curCam.cameraPosition += curCam.cameraDirection * transform.speed;
+                //if (Keyboard.GetState().IsKeyDown(Keys.S))
+                //    curCam.cameraPosition -= curCam.cameraDirection * transform.speed;
+                //if (Keyboard.GetState().IsKeyDown(Keys.D))
+                //    curCam.cameraPosition += Vector3.Cross(curCam.cameraUp, curCam.cameraDirection) * transform.speed;
+                //if (Keyboard.GetState().IsKeyDown(Keys.A))
+                //    curCam.cameraPosition -= Vector3.Cross(curCam.cameraUp, curCam.cameraDirection) * transform.speed;
                 curCam.CreateLookAt();
 
 

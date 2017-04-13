@@ -16,6 +16,7 @@ namespace GameEngine.Components
         public Matrix scale { get; protected set; }
         public Matrix translation { get; protected set; }
 
+
         public ModelComponent(GraphicsDevice device, Model m) : base(device)
         {
             model = m;

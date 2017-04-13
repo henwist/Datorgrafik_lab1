@@ -33,6 +33,7 @@ namespace GameEngine.Systems
             
         }
 
+        //int index = 3;
         public void Draw(BasicEffect effect, GameTime gametime)
         {
             List<ulong> models = ComponentManager.GetAllEntitiesWithComp<ModelComponent>();
@@ -56,13 +57,17 @@ namespace GameEngine.Systems
                         be.Projection = camera.projectionMatrix;
                         System.Diagnostics.Debug.WriteLine(camera.viewMatrix.Translation);
                         be.View = camera.viewMatrix;
-                        
+
                         be.World = model.world * mesh.ParentBone.Transform * model.translation * model.scale;
+                        //index++;
                     }
                     mesh.Draw();
                 }
+                //index = 3;
             }
         }
+
+
 
     }
 }

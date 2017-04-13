@@ -37,6 +37,8 @@ namespace Datorgrafik_lab1
         private Controller controller;
         private float scaleMove = 1.0f; //used to scale movements if move is to fast or slow.
 
+        private ulong CHOPPERID = 1;
+
         public CameraComponent camera { get; protected set; }
 
         public Game1()
@@ -109,9 +111,18 @@ namespace Datorgrafik_lab1
         {
         }
 
-
+        float rotation = 0.1f;
         protected override void Update(GameTime gameTime)
         {
+            Quaternion q;
+
+            Quaternion quaternion_main = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(rotation));
+            quaternion_main.Normalize();
+
+            Quaternion quaternion_tail = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(rotation));
+            quaternion_tail.Normalize();
+
+            rotation += 0.00001f;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
@@ -122,9 +133,32 @@ namespace Datorgrafik_lab1
             modelSystem.camera = cameraSystem.camera;
             cameraSystem.Update(gameTime);
 
+            ModelComponent chopper = ComponentManager.GetComponent<ModelComponent>(CHOPPERID);
+
+            foreach (ModelMesh mesh in chopper.model.Meshes)
+            {
+
+                if (mesh.ParentBone.Index == (int)meshindex.main_rotor)
+                {
+                    q = mesh.ParentBone.Transform.Rotation * quaternion_main;
+                    q.Normalize();
+                    mesh.ParentBone.Transform = Matrix.CreateTranslation(mesh.ParentBone.Transform.Translation)
+                                               * Matrix.CreateFromQuaternion(q);
+                }
+
+                if (mesh.ParentBone.Index == (int)meshindex.tail_rotor)
+                {
+                    q = mesh.ParentBone.Transform.Rotation * quaternion_tail;
+                    q.Normalize();
+                    mesh.ParentBone.Transform =
+                                               Matrix.CreateFromQuaternion(q)
+                                               * Matrix.CreateTranslation(mesh.ParentBone.Transform.Translation);
+                }
+
+            }
 
 
-            base.Update(gameTime);
+                base.Update(gameTime);
 
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
@@ -193,9 +227,10 @@ namespace Datorgrafik_lab1
 
 
 
-        private enum Constants : int
+        private enum meshindex : int
         {
-
+           main_rotor = 1, 
+           tail_rotor = 3
         }
     }
 }
