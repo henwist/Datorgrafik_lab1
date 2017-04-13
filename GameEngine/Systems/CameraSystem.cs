@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameEngine.Components;
 using GameEngine.Managers;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameEngine.Systems
 {
@@ -51,7 +52,19 @@ namespace GameEngine.Systems
                 Vector3 transformedRef = Vector3.Transform(curCam.cameraDirection, rotation);
                 curCam.viewMatrix = Matrix.CreateLookAt(curCam.cameraPosition, curCam.cameraPosition + transformedRef, Vector3.Up);
 
-                curCam.Update(gameTime);
+                if (Keyboard.GetState().IsKeyDown(Keys.W))
+                    curCam.cameraPosition += curCam.cameraDirection * transform.speed;
+                if (Keyboard.GetState().IsKeyDown(Keys.S))
+                    curCam.cameraPosition -= curCam.cameraDirection * transform.speed;
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                    curCam.cameraPosition += Vector3.Cross(curCam.cameraUp, curCam.cameraDirection) * transform.speed;
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                    curCam.cameraPosition -= Vector3.Cross(curCam.cameraUp, curCam.cameraDirection) * transform.speed;
+                curCam.CreateLookAt();
+
+
+
+                //curCam.Update(gameTime);
             }
         }
     }

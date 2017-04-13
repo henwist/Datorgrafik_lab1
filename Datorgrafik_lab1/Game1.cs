@@ -73,7 +73,7 @@ namespace Datorgrafik_lab1
             grass = Content.Load<Texture2D>("Textures/grass");
 
             _view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-            _projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 4.0f / 3.0f, 1, 3000);
+            _projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, GraphicsDevice.Viewport.AspectRatio, 1, 50000f);
 
             setEffectOptions();
 
@@ -117,9 +117,11 @@ namespace Datorgrafik_lab1
 
             angle += 0.005f;
 
-            cameraSystem.Update(gameTime);
-            modelSystem.camera = cameraSystem.camera;
+
             transformSystem.Update(gameTime);
+            modelSystem.camera = cameraSystem.camera;
+            cameraSystem.Update(gameTime);
+
 
 
             base.Update(gameTime);
@@ -160,7 +162,7 @@ namespace Datorgrafik_lab1
             device.Clear(Color.DarkSlateBlue);
 
 
-            modelSystem.Draw(gameTime);
+            modelSystem.Draw(effect, gameTime);
 
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
@@ -179,8 +181,10 @@ namespace Datorgrafik_lab1
             ulong id = ComponentManager.GetNewId();
             TransformComponent transform = new TransformComponent(new Vector3(200.0f, 300.0f, 100.0f), 0f, 10f);
 
+            Model model = Content.Load<Model>(@"Models/Chopper");
+            
             ComponentManager.StoreComponent(id, CameraSystem.Instance.camera);
-            ComponentManager.StoreComponent(id, new ModelComponent(GraphicsDevice, Content.Load<Model>(@"Models/Chopper")));
+            ComponentManager.StoreComponent(id, new ModelComponent(GraphicsDevice, model) {world = Matrix.Identity });
             ComponentManager.StoreComponent(id, transform);
             //ComponentManager.StoreComponent(id, Controller);
 
