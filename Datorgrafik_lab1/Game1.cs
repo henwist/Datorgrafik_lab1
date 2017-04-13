@@ -34,6 +34,8 @@ namespace Datorgrafik_lab1
         private float scaleMove = 0.5f; //used to scale movements if move is to fast or slow in controller.
 
         private ulong CHOPPERID = 1;
+        private float CHOPPER_SCALE = 1f;
+        private Vector3 CHOPPER_TRANSLATION = new Vector3(150, 150, 100);
 
         public CameraComponent camera { get; protected set; }
 
@@ -186,7 +188,8 @@ namespace Datorgrafik_lab1
             CameraComponent camera = new CameraComponent(graphics.GraphicsDevice, cameraPosition, Vector3.Zero, Vector3.Up);
 
             ComponentManager.StoreComponent(id, camera);
-            ComponentManager.StoreComponent(id, new ModelComponent(GraphicsDevice, model) {world = Matrix.Identity });
+            ComponentManager.StoreComponent(id, new ModelComponent(model, CHOPPER_SCALE, CHOPPER_TRANSLATION,
+                                                                   0f, 0f, MathHelper.PiOver2) { world = Matrix.Identity });
             ComponentManager.StoreComponent(id, transform);
         }
 
