@@ -12,6 +12,7 @@ namespace GameEngine.Components
         public Matrix World;
         public Vector3 position;
         public float rotation;
+        public Quaternion qRot;
         public float scale;
         public float speed = 3f;
 

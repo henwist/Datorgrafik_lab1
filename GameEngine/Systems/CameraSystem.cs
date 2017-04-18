@@ -43,9 +43,19 @@ namespace GameEngine.Systems
             foreach (ulong m in ComponentManager.GetAllEntitiesWithComp<CameraComponent>())
             {
                 TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(m);
-                CameraComponent camera = ComponentManager.GetComponent<CameraComponent>(m);
+                CameraComponent curCam = ComponentManager.GetComponent<CameraComponent>(m);
 
-                camera.cameraPosition = transform.position;
+                Vector3 offSet = new Vector3(0, 0.5f, 0.6f);
+                curCam.cameraPosition = Vector3.Transform(offSet, Matrix.CreateFromQuaternion(transform.qRot));
+                curCam.cameraPosition += transform.position;
+
+                Vector3 up = Vector3.Transform(Vector3.Up, transform.qRot);
+
+                curCam.viewMatrix = Matrix.CreateLookAt(curCam.cameraPosition, transform.position, up);
+                curCam.projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.AspectRatio, 0.2f, 500f);
+
+
+                //camera.cameraPosition = transform.position;
                 ////List<Component> comps = ComponentManager.GetComponents<CameraComponent>();
                 //List<ulong> comps = ComponentManager.GetAllEntitiesWithComp<CameraComponent>();
 
@@ -72,7 +82,7 @@ namespace GameEngine.Systems
 
 
                 //    //curCam.Update(gameTime);
-                }
+            }
             }
     }
 }

@@ -171,8 +171,7 @@ namespace Datorgrafik_lab1
             {
                 pass.Apply();
 
-                effect.View = Matrix.CreateLookAt(camera.cameraPosition, 
-                                                  camera.cameraDirection, camera.cameraUp);
+                effect.View = camera.viewMatrix;
             }
 
             base.Draw(gameTime);
