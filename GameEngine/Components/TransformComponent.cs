@@ -21,6 +21,7 @@ namespace GameEngine.Components
             position = pos;
             rotation = rot;
             this.scale = scale;
+            World = Matrix.Identity;
         }
     }
 }

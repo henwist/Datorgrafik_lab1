@@ -47,8 +47,8 @@ namespace Datorgrafik_lab1
 
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 768;
+            graphics.PreferredBackBufferWidth = 500;
+            graphics.PreferredBackBufferHeight = 500;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
 
@@ -75,7 +75,7 @@ namespace Datorgrafik_lab1
 
             sceneManager = new SceneManager(graphics.GraphicsDevice, effect.World);
 
-            setupController();
+            //setupController();
 
         }
 
@@ -148,7 +148,7 @@ namespace Datorgrafik_lab1
             transformSystem.Update(gameTime);
             CameraSystem.Instance.Update(gameTime);
 
-            moveChopper();
+            //moveChopper();
             rotateRotors();
 
            base.Update(gameTime);

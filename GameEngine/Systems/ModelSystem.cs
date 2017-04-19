@@ -42,6 +42,7 @@ namespace GameEngine.Systems
             {
                 ModelComponent model = ComponentManager.GetComponent<ModelComponent>(m);
                 CameraComponent camera = ComponentManager.GetComponent<CameraComponent>(m);
+                TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(m);
                 Matrix[] transforms = new Matrix[model.model.Bones.Count];
 
 
@@ -57,8 +58,8 @@ namespace GameEngine.Systems
                         be.Projection = camera.projectionMatrix;
                         System.Diagnostics.Debug.WriteLine(camera.viewMatrix.Translation);
                         be.View = camera.viewMatrix;
-
-                        be.World = model.world * mesh.ParentBone.Transform * model.translation * model.scale;
+                        
+                        be.World  = model.world * mesh.ParentBone.Transform * model.translation * model.scale * transform.World;
                         //index++;
                     }
                     mesh.Draw();
