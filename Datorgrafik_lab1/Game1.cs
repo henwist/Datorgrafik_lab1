@@ -75,7 +75,7 @@ namespace Datorgrafik_lab1
 
             sceneManager = new SceneManager(graphics.GraphicsDevice, effect.World);
 
-            //setupController();
+            setupController();
 
         }
 
@@ -145,10 +145,14 @@ namespace Datorgrafik_lab1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            foreach (Keys k in Keyboard.GetState().GetPressedKeys())
+                if (k.Equals(Keys.Escape))
+                    this.Exit();
+
             transformSystem.Update(gameTime);
             CameraSystem.Instance.Update(gameTime);
 
-            //moveChopper();
+            moveChopper();
             rotateRotors();
 
            base.Update(gameTime);
@@ -198,12 +202,12 @@ namespace Datorgrafik_lab1
 
             controller = new Controller(scaleMove);
 
-            controller.AddBinding(Keys.W, new Vector3(-1, 0, 0));
-            controller.AddBinding(Keys.S, new Vector3(1, 0, 0));
+            controller.AddBinding(Keys.A, new Vector3(-1, 0, 0));
+            controller.AddBinding(Keys.D, new Vector3(1, 0, 0));
             controller.AddBinding(Keys.LeftShift, new Vector3(0, 1, 0));
             controller.AddBinding(Keys.Space, new Vector3(0, -1, 0));
-            controller.AddBinding(Keys.A, new Vector3(0, 0, 1));
-            controller.AddBinding(Keys.D, new Vector3(0, 0, -1));
+            controller.AddBinding(Keys.S, new Vector3(0, 0, 1));
+            controller.AddBinding(Keys.W, new Vector3(0, 0, -1));
         }
 
 
