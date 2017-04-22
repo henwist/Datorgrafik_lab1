@@ -46,7 +46,6 @@ namespace GameEngine.Systems
                 Matrix[] transforms = new Matrix[model.model.Bones.Count];
 
                 Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) *
-                    Matrix.CreateRotationY(MathHelper.Pi) * 
                     Matrix.CreateFromQuaternion(transform.qRot) *
                     Matrix.CreateTranslation(transform.position);
 
