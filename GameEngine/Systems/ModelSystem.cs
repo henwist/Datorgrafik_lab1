@@ -45,6 +45,11 @@ namespace GameEngine.Systems
                 TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(m);
                 Matrix[] transforms = new Matrix[model.model.Bones.Count];
 
+                Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) *
+                    Matrix.CreateRotationY(MathHelper.Pi) * 
+                    Matrix.CreateFromQuaternion(transform.qRot) *
+                    Matrix.CreateTranslation(transform.position);
+
 
                 model.model.CopyAbsoluteBoneTransformsTo(transforms);
 
@@ -58,8 +63,9 @@ namespace GameEngine.Systems
                         be.Projection = camera.projectionMatrix;
                         System.Diagnostics.Debug.WriteLine(camera.viewMatrix.Translation);
                         be.View = camera.viewMatrix;
-                        
-                        be.World  = model.world * mesh.ParentBone.Transform * model.translation * model.scale * transform.World;
+                        be.World = transforms[mesh.ParentBone.Index] * worldMatrix;
+
+                        //be.World  = model.world * mesh.ParentBone.Transform * model.translation * model.scale * transform.World;
                         //index++;
                     }
                     mesh.Draw();

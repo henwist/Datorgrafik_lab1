@@ -24,7 +24,7 @@ namespace GameEngine.Systems
             }
         }
 
-        float gameSpeed = 1f;
+        
 
         private void Move(ref Vector3 position, Quaternion qRot, float speed)
         {
@@ -44,7 +44,7 @@ namespace GameEngine.Systems
                 float upDownRot = 0;
 
                 float turningSpeed = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
-                turningSpeed *= 1.6f * gameSpeed;
+                turningSpeed *= 1.6f;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
@@ -67,7 +67,7 @@ namespace GameEngine.Systems
                                         * Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), upDownRot);
                 transform.qRot *= extraRot;
 
-                float moveSpeed = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 500f *gameSpeed;
+                float moveSpeed = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 500f;
                 Move(ref transform.position, transform.qRot, moveSpeed);
 
                 //if (Keyboard.GetState().IsKeyDown(Keys.W))
