@@ -124,8 +124,8 @@ namespace Datorgrafik_lab1
                 {
                     q = mesh.ParentBone.Transform.Rotation * quaternion;
                     q.Normalize();
-                    mesh.ParentBone.Transform = Matrix.CreateFromQuaternion(q) 
-                                                * Matrix.CreateTranslation(mesh.ParentBone.Transform.Translation);
+                    mesh.ParentBone.Transform = Matrix.CreateFromQuaternion(q); 
+                                                //* Matrix.CreateTranslation(mesh.ParentBone.Transform.Translation);
                 }
             }
         }
@@ -153,7 +153,7 @@ namespace Datorgrafik_lab1
             CameraSystem.Instance.Update(gameTime);
 
             moveChopper();
-            rotateRotors();
+            //rotateRotors();
 
            base.Update(gameTime);
 
@@ -185,6 +185,7 @@ namespace Datorgrafik_lab1
         public void createGameEntities()
         {
             ulong id = ComponentManager.GetNewId();
+            ChopperComponent chopper = new ChopperComponent();
             TransformComponent transform = new TransformComponent(new Vector3(200.0f, 300.0f, 100.0f), 0f, 10f);
 
             Model model = Content.Load<Model>(@"Models/Chopper");
@@ -192,8 +193,9 @@ namespace Datorgrafik_lab1
 
             ComponentManager.StoreComponent(id, camera);
             ComponentManager.StoreComponent(id, new ModelComponent(model, CHOPPER_SCALE, CHOPPER_TRANSLATION,
-                                                                   0f, 0f, MathHelper.PiOver2) { world = Matrix.Identity });
+                                                                   0f, 0f, MathHelper.PiOver2, true) { world = Matrix.Identity });
             ComponentManager.StoreComponent(id, transform);
+            ComponentManager.StoreComponent(id, chopper);
         }
 
 

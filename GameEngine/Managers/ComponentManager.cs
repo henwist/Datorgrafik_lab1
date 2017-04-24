@@ -69,6 +69,15 @@ namespace GameEngine.Managers
             return new List<Component>();
         }
 
+        public static bool HasComponent<T>(ulong id)
+        {
+            Type type = typeof(T);
+            if (components.ContainsKey(type))
+                if (components[type].ContainsKey(id))
+                    return true;
+            return false;
+        }
+
         public static List<ulong> GetAllIds<T>()
         {
             Type type = typeof(T);

@@ -44,7 +44,7 @@ namespace GameEngine.Systems
                 float upDownRot = 0;
 
                 float turningSpeed = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
-                turningSpeed *= 1.15f;
+                turningSpeed += .025f;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
