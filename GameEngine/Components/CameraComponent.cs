@@ -13,6 +13,8 @@ namespace GameEngine.Components
     {
         private static Vector3 perspectiveOffset = new Vector3(0, 200, -200);
 
+        public ulong cameraEntity { get; set; }
+
         public Matrix viewMatrix { get; set; }
         public Matrix projectionMatrix { get; set; }
 
@@ -23,8 +25,9 @@ namespace GameEngine.Components
 
         float sinvalue = 0.1f;
 
-        public CameraComponent(GraphicsDevice gd, Vector3 position, Vector3 target, Vector3 up)
+        public CameraComponent(GraphicsDevice gd, Vector3 position, Vector3 target, Vector3 up, ulong id)
         {
+            cameraEntity = id;
             cameraPosition = position;
             cameraDirection = target - position;
             cameraDirection.Normalize();
