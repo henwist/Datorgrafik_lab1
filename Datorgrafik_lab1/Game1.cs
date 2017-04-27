@@ -152,7 +152,7 @@ namespace Datorgrafik_lab1
             transformSystem.Update(gameTime);
             CameraSystem.Instance.Update(gameTime);
 
-            moveChopper();
+            //moveChopper();
             //rotateRotors();
 
            base.Update(gameTime);
