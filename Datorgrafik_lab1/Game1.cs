@@ -150,6 +150,7 @@ namespace Datorgrafik_lab1
                     this.Exit();
 
             transformSystem.Update(gameTime);
+            ModelSystem.Instance.Update();
             CameraSystem.Instance.Update(gameTime);
 
             //moveChopper();
@@ -189,7 +190,7 @@ namespace Datorgrafik_lab1
             TransformComponent transform = new TransformComponent(new Vector3(200.0f, 300.0f, 100.0f), 0f, 10f);
 
             Model model = Content.Load<Model>(@"Models/Chopper");
-            CameraComponent camera = new CameraComponent(graphics.GraphicsDevice, cameraPosition, Vector3.Zero, Vector3.Up);
+            CameraComponent camera = new CameraComponent(graphics.GraphicsDevice, cameraPosition, Vector3.Zero, Vector3.Up, id);
 
             ComponentManager.StoreComponent(id, camera);
             ComponentManager.StoreComponent(id, new ModelComponent(model, CHOPPER_SCALE, CHOPPER_TRANSLATION,

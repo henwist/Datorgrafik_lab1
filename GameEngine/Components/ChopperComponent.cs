@@ -10,6 +10,11 @@ namespace GameEngine.Components
     public class ChopperComponent : Component
     {
         public readonly bool isChopper = true;
-        public readonly float rotorAngle = .15f;
+        public float rotorAngle { get; set; }
+
+        public ChopperComponent()
+        {
+            rotorAngle = MathHelper.PiOver4 / 60;
+        }
     }
 }
