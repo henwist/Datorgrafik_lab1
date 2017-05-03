@@ -23,6 +23,7 @@ namespace GameEngine.Components
             rotation = rot;
             this.scale = scale;
             World = Matrix.Identity;
+            qRot = Quaternion.Identity;
         }
     }
 }

@@ -44,22 +44,28 @@ namespace GameEngine.Systems
                 ModelComponent m = ComponentManager.GetComponent<ModelComponent>(mC);
                 ChopperComponent chopper = ComponentManager.GetComponent<ChopperComponent>(mC);
 
-                Quaternion qx, qy = new Quaternion();
-                qy = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle));
-                qx = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationX(chopper.rotorAngle));
+                Quaternion qX, qY;
+                //qy = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle));
+                //qx = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationX(chopper.rotorAngle));
+
+                qY = m.model.Meshes[0].ParentBone.Transform.Rotation * Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle));
+                qX = m.model.Meshes[2].ParentBone.Transform.Rotation * Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationX(chopper.rotorAngle));
+
+                qY.Normalize();
+                qX.Normalize();
 
                 m.chopperMeshWorldMatrices[0] = Matrix.CreateTranslation(m.chopperMeshWorldMatrices[0].Translation)
                     //* Matrix.CreateRotationY(chopper.rotorAngle)
-                    * Matrix.CreateFromQuaternion(qy)
+                    * Matrix.CreateFromQuaternion(qY)
                     * Matrix.CreateTranslation(-m.chopperMeshWorldMatrices[0].Translation);
 
                 m.chopperMeshWorldMatrices[1] = Matrix.CreateTranslation(Vector3.Zero);
 
                 m.chopperMeshWorldMatrices[2] = Matrix.CreateTranslation(m.chopperMeshWorldMatrices[2].Translation)
                     //* Matrix.CreateRotationX(chopper.rotorAngle)
-                    * Matrix.CreateFromQuaternion(qx)
+                    * Matrix.CreateFromQuaternion(qX)
                     * Matrix.CreateTranslation(-m.chopperMeshWorldMatrices[2].Translation);
-                chopper.rotorAngle += .0001f;
+                chopper.rotorAngle += .03f;
             }
         }
 
