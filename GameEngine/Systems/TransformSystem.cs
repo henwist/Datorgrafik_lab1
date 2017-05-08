@@ -16,6 +16,8 @@ namespace GameEngine.Systems
 
         private MouseState prevMouseState;
 
+        private float yaw = 0, pitch = 0, roll = 0f;
+
         public static TransformSystem Instance
         {
             get
@@ -26,12 +28,21 @@ namespace GameEngine.Systems
             }
         }
 
-        private float yaw = 0, pitch = 0, roll = 0f;
-
         private void Move(ref Vector3 position, Quaternion qRot, float speed)
         {
             position += Vector3.Transform(new Vector3(0, 0, -1), qRot) * speed;
         }
+
+
+        private void ResetAngle(ref float currentAngle)
+        {
+            if (currentAngle >= MathHelper.TwoPi)
+                currentAngle -= MathHelper.TwoPi;
+
+            if (currentAngle < -MathHelper.TwoPi)
+                currentAngle += MathHelper.TwoPi;
+        }
+
 
         public void Update(GameTime gameTime)
         {
@@ -132,6 +143,10 @@ namespace GameEngine.Systems
                     //axis = new Vector3(0, 1f, 0);
                     //upDownRot += turningSpeed;
                 }
+
+                ResetAngle(ref yaw);
+                ResetAngle(ref pitch);
+                ResetAngle(ref roll);
 
                 Quaternion extraRot = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
                 extraRot.Normalize();

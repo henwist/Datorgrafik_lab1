@@ -35,9 +35,13 @@ namespace GameEngine.Components
                 chopperMeshWorldMatrices = new Matrix[3];
                 ModelMesh[] meshes = model.Meshes.ToArray();
 
-                chopperMeshWorldMatrices[0] = Matrix.CreateTranslation(meshes[0].ParentBone.Transform.Translation);
+                //chopperMeshWorldMatrices[0] = Matrix.CreateTranslation(meshes[0].ParentBone.Transform.Translation);
+                //chopperMeshWorldMatrices[1] = Matrix.Identity;
+                //chopperMeshWorldMatrices[2] = Matrix.CreateTranslation(meshes[2].ParentBone.Transform.Translation);
+
+                chopperMeshWorldMatrices[0] = Matrix.Identity;
                 chopperMeshWorldMatrices[1] = Matrix.Identity;
-                chopperMeshWorldMatrices[2] = Matrix.CreateTranslation(meshes[2].ParentBone.Transform.Translation);
+                chopperMeshWorldMatrices[2] = Matrix.Identity;
             }
         }
 
