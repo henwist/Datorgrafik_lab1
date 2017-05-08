@@ -51,38 +51,44 @@ namespace GameEngine.Systems
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
-                    transform.position += transform.speed.X * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Right;
+                    //transform.position += transform.speed.X * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Right;
+                    transform.position += transform.speed.X * gameTime.ElapsedGameTime.Milliseconds * transform.right;
                     //transform.position.X += transform.speed.X * gameTime.ElapsedGameTime.Milliseconds;
                     //leftRightRot += turningSpeed;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
-                    transform.position -= transform.speed.X * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Right;
+                    //transform.position = transform.speed.X * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Right;
+                    transform.position += transform.speed.X * gameTime.ElapsedGameTime.Milliseconds * -1 * transform.right;
                     //transform.position.X -= transform.speed.X * gameTime.ElapsedGameTime.Milliseconds;
                     //leftRightRot -= turningSpeed;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
-                    transform.position += transform.speed.Z * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Forward;
+                    //transform.position += transform.speed.Z * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Forward;
+                    transform.position += transform.speed.Z * gameTime.ElapsedGameTime.Milliseconds * transform.forward;
                     //transform.position.Z -= transform.speed.Z * gameTime.ElapsedGameTime.Milliseconds;
                     //upDownRot += turningSpeed;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.S))
                 {
-                    transform.position -= transform.speed.Z * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Forward;
+                    //transform.position -= transform.speed.Z * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Forward;
+                    transform.position += transform.speed.Z * gameTime.ElapsedGameTime.Milliseconds * -1*transform.forward;
                     //transform.position.Z += transform.speed.Z * gameTime.ElapsedGameTime.Milliseconds;
                     //upDownRot -= turningSpeed;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 {
-                    transform.position += transform.speed.Y * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Down;
+                    //transform.position += transform.speed.Y * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Down;
+                    transform.position += transform.speed.Y * gameTime.ElapsedGameTime.Milliseconds * -1 * transform.up;
                     //transform.position.Y += transform.speed.Y * gameTime.ElapsedGameTime.Milliseconds;
                     //upDownRot += turningSpeed;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                 {
-                    
-                    transform.position -= transform.speed.Y * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Down;
+
+                    //transform.position += transform.speed.Y * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Down;
+                    transform.position += transform.speed.Y * gameTime.ElapsedGameTime.Milliseconds * transform.up;
                     //upDownRot -= turningSpeed;
                 }
 
