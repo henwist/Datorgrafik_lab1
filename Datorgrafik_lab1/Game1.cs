@@ -22,16 +22,11 @@ namespace Datorgrafik_lab1
 
         private Vector3 cameraPosition = new Vector3(200.0f, 200.0f, 100.0f);
 
-        float rotation = 0.1f;
-
         Texture2D grass;
 
         private SceneManager sceneManager;
         private ModelSystem modelSystem;
         private TransformSystem transformSystem;
-
-        private Controller controller;
-        private float scaleMove = 0.5f; //used to scale movements if move is to fast or slow in controller.
 
         private ulong CHOPPERID = 1;
         private float CHOPPER_SCALE = 1f;
@@ -47,8 +42,8 @@ namespace Datorgrafik_lab1
 
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferWidth = 500;
-            graphics.PreferredBackBufferHeight = 500;
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 768;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
 
@@ -74,8 +69,6 @@ namespace Datorgrafik_lab1
             setEffectOptions();
 
             sceneManager = new SceneManager(graphics.GraphicsDevice, effect.World);
-
-            setupController();
 
         }
 
@@ -106,39 +99,6 @@ namespace Datorgrafik_lab1
         }
 
 
-
-        private void rotateRotors()
-        {
-            Quaternion q;
-            Quaternion quaternion = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(rotation));
-            quaternion.Normalize();
-
-            rotation += 0.00001f;
-
-            ModelComponent chopper = ComponentManager.GetComponent<ModelComponent>(CHOPPERID);
-
-            foreach (ModelMesh mesh in chopper.model.Meshes)
-            {
-
-                if ((mesh.ParentBone.Index == (int)meshindex.main_rotor) || (mesh.ParentBone.Index == (int)meshindex.tail_rotor))
-                {
-                    q = mesh.ParentBone.Transform.Rotation * quaternion;
-                    q.Normalize();
-                    mesh.ParentBone.Transform = Matrix.CreateFromQuaternion(q); 
-                                                //* Matrix.CreateTranslation(mesh.ParentBone.Transform.Translation);
-                }
-            }
-        }
-
-
-        private void moveChopper()
-        {
-            TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(CHOPPERID);
-
-            transform.position += controller.GetNextMove();
-        }
-
-
         protected override void Update(GameTime gameTime)
         {
 
@@ -153,9 +113,6 @@ namespace Datorgrafik_lab1
             ModelSystem.Instance.Update();
             CameraSystem.Instance.Update(gameTime);
 
-            //moveChopper();
-            //rotateRotors();
-
            base.Update(gameTime);
 
         }
@@ -165,7 +122,7 @@ namespace Datorgrafik_lab1
         {
             device.Clear(Color.DarkSlateBlue);
 
-            Window.Title = "Controller keys: a,d,s,w, LShift, Space. Av: Rasmus Lundquist (S142465) och Henrik Wistbacka(S142066)";
+            Window.Title = "Controller keys: a,d,s,w, LShift, Space, Arrows, Numpad1, Numpad0. Av: Rasmus Lundquist (S142465) och Henrik Wistbacka(S142066)";
 
             modelSystem.Draw(effect, gameTime);
             sceneManager.Draw(effect, gameTime);
@@ -197,27 +154,6 @@ namespace Datorgrafik_lab1
                                                                    0f, 0f, MathHelper.PiOver2, true) { world = Matrix.Identity });
             ComponentManager.StoreComponent(id, transform);
             ComponentManager.StoreComponent(id, chopper);
-        }
-
-
-        private void setupController()
-        {
-
-            controller = new Controller(scaleMove);
-
-            controller.AddBinding(Keys.A, new Vector3(-1, 0, 0));
-            controller.AddBinding(Keys.D, new Vector3(1, 0, 0));
-            controller.AddBinding(Keys.LeftShift, new Vector3(0, 1, 0));
-            controller.AddBinding(Keys.Space, new Vector3(0, -1, 0));
-            controller.AddBinding(Keys.S, new Vector3(0, 0, 1));
-            controller.AddBinding(Keys.W, new Vector3(0, 0, -1));
-        }
-
-
-        private enum meshindex : int
-        {
-           main_rotor = 1, 
-           tail_rotor = 3
         }
     }
 }

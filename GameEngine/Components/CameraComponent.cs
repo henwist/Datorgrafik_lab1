@@ -36,30 +36,14 @@ namespace GameEngine.Components
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, gd.Viewport.AspectRatio, 1.0f, 50000.0f);
         }
 
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
-        //public override void Update(GameTime gametime)
+        //public override void Initialize()
         //{
-        //    if (Keyboard.GetState().IsKeyDown(Keys.W))
-        //        cameraPosition += cameraDirection * speed;
-        //    if (Keyboard.GetState().IsKeyDown(Keys.S))
-        //        cameraPosition -= cameraDirection * speed;
-        //    if (Keyboard.GetState().IsKeyDown(Keys.D))
-        //        cameraPosition += Vector3.Cross(cameraUp, cameraDirection) * speed;
-        //    if (Keyboard.GetState().IsKeyDown(Keys.A))
-        //        cameraPosition -= Vector3.Cross(cameraUp, cameraDirection) * speed;
-        //    CreateLookAt();
-
-        //    base.Update(gametime);
+        //    base.Initialize();
         //}
 
         public void CreateLookAt()
         {
-            sinvalue += 0.01f;
-            viewMatrix = Matrix.CreateLookAt(cameraPosition + new Vector3((float)Math.Sin(sinvalue)*4, 0,0), cameraPosition + cameraDirection, cameraUp);
+            viewMatrix = Matrix.CreateLookAt(cameraPosition, cameraPosition + cameraDirection, cameraUp);
         }
     }
 }

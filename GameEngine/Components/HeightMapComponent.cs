@@ -43,9 +43,6 @@ namespace GameEngine.Components
             terrainHeight = bmpHeightdata.Height;
             terrainWidth = bmpHeightdata.Width;
 
-            //this.terrainHeight = terrainHeight;
-            //this.terrainWidth = terrainWidth;
-
             this.scaleFactor = scaleFactor;
 
             vertexCount = terrainWidth * terrainHeight;
@@ -60,8 +57,7 @@ namespace GameEngine.Components
             indexBuffer = new IndexBuffer(gd, typeof(int), indexCount, BufferUsage.None);
 
             bmpTexture = new Bitmap(textureFileName);
-            //texture = Texture2D.CreateTex2DFromBitmap(bmpTexture, gd) //; bmpTexture, gd);
-            //texture = Texture2D.FromStream(gd, new FileStream(textureFileName, System.IO.FileMode.Open));// CreateTex2DFromBitmap(bmpTexture, gd);
+
             texture = Texture2D.FromStream(gd, new StreamReader(textureFileName).BaseStream);
             texture.Name = textureFileName;
 

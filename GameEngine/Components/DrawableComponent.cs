@@ -10,13 +10,6 @@ namespace GameEngine.Components
 {
     public abstract class DrawableComponent : Component
     {
-        public DrawableComponent(GraphicsDevice device)
-        {
-            
-        }
-        public virtual void Draw(GameTime gametime, CameraComponent camera)
-        {
 
-        }
     }
 }

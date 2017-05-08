@@ -14,10 +14,6 @@ namespace GameEngine.Systems
     {
         private static ModelSystem instance;
 
-
-        //public CameraComponent camera;
-
-
         public static ModelSystem Instance
         {
             get
@@ -32,49 +28,6 @@ namespace GameEngine.Systems
         {
 
         }
-
-        //public void Update()
-        //{
-        //    List<ulong> models = ComponentManager.GetAllEntitiesWithComp<ModelComponent>();
-
-        //    foreach(ulong mC in models)
-        //    {
-        //        if (!ComponentManager.HasComponent<ChopperComponent>(mC))
-        //            continue;
-        //        ModelComponent m = ComponentManager.GetComponent<ModelComponent>(mC);
-        //        ChopperComponent chopper = ComponentManager.GetComponent<ChopperComponent>(mC);
-
-        //        Vector3 translation = m.chopperMeshWorldMatrices[0].Translation;
-        //        Matrix transform = m.model.Meshes[0].ParentBone.Transform;
-
-        //        m.model.Meshes[0].ParentBone.Transform *= -Matrix.CreateTranslation(translation);
-        //        //var x = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle)) * m.model.Meshes[0].ParentBone.Transform.Rotation;
-        //        Quaternion x = m.model.Meshes[0].ParentBone.Transform.Rotation * Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle));
-
-        //        x.Normalize();
-        //        Matrix x2 = Matrix.CreateFromQuaternion(x);
-        //        m.chopperMeshWorldMatrices[0] = x2;
-
-
-        //        var translation2 = m.chopperMeshWorldMatrices[2].Translation;
-        //        m.model.Meshes[2].ParentBone.Transform *= -Matrix.CreateTranslation(translation2);
-
-        //        //var y = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationX(chopper.rotorAngle)) * m.model.Meshes[2].ParentBone.Transform.Rotation;
-
-        //        Quaternion y = m.model.Meshes[2].ParentBone.Transform.Rotation * Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle));
-        //        y.Normalize();
-
-        //        Matrix y2 = Matrix.CreateFromQuaternion(y);
-        //        m.chopperMeshWorldMatrices[2] = y2;
-
-        //        chopper.rotorAngle += .03f;
-        //    }
-        //}
-
-        //public void Update()
-        //{
-        //}
-
 
 
         public void Update()
@@ -106,7 +59,7 @@ namespace GameEngine.Systems
             }
         }
 
-        //int index = 3;
+
         public void Draw(BasicEffect effect, GameTime gametime)
         {
             List<ulong> models = ComponentManager.GetAllEntitiesWithComp<ModelComponent>();
@@ -133,88 +86,9 @@ namespace GameEngine.Systems
                         be.EnableDefaultLighting();
                         be.PreferPerPixelLighting = true;
 
-                        //be.World = mesh.ParentBone.Transform * Matrix.CreateFromQuaternion(m.chopperMeshWorldMatrices[index].Rotation) * worldMatrix;
                         be.World = mesh.ParentBone.Transform * m.chopperMeshWorldMatrices[index] * worldMatrix;
                         be.View = camera.viewMatrix;
                         be.Projection = camera.projectionMatrix;
-                    }
-                    mesh.Draw();
-                }
-            }
-
-
-
-            //foreach (ulong m in models)
-            //{
-            //    if (ComponentManager.HasComponent<ChopperComponent>(m))
-            //        DrawChopper();
-            //    else
-            //    {
-
-            //        ModelComponent model = ComponentManager.GetComponent<ModelComponent>(m);
-            //        CameraComponent camera = ComponentManager.GetComponent<CameraComponent>(m);
-            //        TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(m);
-            //        Matrix[] transforms = new Matrix[model.model.Bones.Count];
-
-            //        Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) *
-            //            Matrix.CreateFromQuaternion(transform.qRot) *
-            //            Matrix.CreateTranslation(transform.position);
-
-
-            //        model.model.CopyAbsoluteBoneTransformsTo(transforms);
-
-            //        foreach (ModelMesh mesh in model.model.Meshes)
-            //        {
-            //            foreach (BasicEffect be in mesh.Effects)
-            //            {
-            //                be.EnableDefaultLighting();
-            //                be.LightingEnabled = true;
-
-            //                be.Projection = camera.projectionMatrix;
-            //                System.Diagnostics.Debug.WriteLine(camera.viewMatrix.Translation);
-            //                be.View = camera.viewMatrix;
-            //                be.World = transforms[mesh.ParentBone.Index] * worldMatrix;
-
-            //                //be.World  = model.world * mesh.ParentBone.Transform * model.translation * model.scale * transform.World;
-            //                //index++;
-            //            }
-            //            mesh.Draw();
-            //        }
-            //    }
-            //    //index = 3;
-            //}
-        }
-
-        private void DrawChopper()
-        {
-            List<ulong> choppers = ComponentManager.GetAllEntitiesWithComp<ChopperComponent>();
-
-            foreach (ulong c in choppers)
-            {
-                ModelComponent m = ComponentManager.GetComponent<ModelComponent>(c);
-                CameraComponent cam = ComponentManager.GetComponent<CameraComponent>(c);
-                TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(c);
-                ChopperComponent chopper = ComponentManager.GetComponent<ChopperComponent>(c);
-
-
-
-
-                Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) *
-                    Matrix.CreateFromQuaternion(transform.qRot) *
-                    Matrix.CreateTranslation(transform.position);
-
-
-                for (int index = 0; index < m.model.Meshes.Count; index++)
-                {
-                    ModelMesh mesh = m.model.Meshes[index];
-                    foreach (BasicEffect be in mesh.Effects)
-                    {
-                        be.EnableDefaultLighting();
-                        be.PreferPerPixelLighting = true;
-
-                        be.World = mesh.ParentBone.Transform * m.chopperMeshWorldMatrices[index] * worldMatrix;
-                        be.View = cam.viewMatrix;
-                        be.Projection = cam.projectionMatrix;
                     }
                     mesh.Draw();
                 }

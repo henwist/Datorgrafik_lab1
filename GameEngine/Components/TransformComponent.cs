@@ -14,7 +14,7 @@ namespace GameEngine.Components
         public float rotation;
         public Quaternion qRot;
         public float scale;
-        //public float speed = 3f;
+
         public Vector3 speed = new Vector3(.1f, .1f, .1f);
         public Vector3 forward, up, right;
 

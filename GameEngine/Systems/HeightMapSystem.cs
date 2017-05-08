@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace GameEngine.Systems
 {
 
-    public class HeightmapSystem :IUdatable
+    public class HeightmapSystem
     {
 
         private List<Component> heightmapComponents;
@@ -39,7 +39,7 @@ namespace GameEngine.Systems
 
         }
 
-        float rot = 0.001f;
+
         public void Draw(BasicEffect effect)
         {
 
@@ -47,29 +47,12 @@ namespace GameEngine.Systems
             {
                 effect.Texture = cmp.texture;
 
-                //cmp.vertexBuffer.SetData<VertexPositionNormalTexture>(cmp.vertices, 0, cmp.vertexCount);
                 gd.SetVertexBuffer(cmp.vertexBuffer);
 
-                //cmp.indexBuffer.SetData<int>(cmp.indices, 0, cmp.indexCount);
                 gd.Indices = cmp.indexBuffer;
-
-                //if (cmp.texture.Name.Contains("fire"))
-                //{
-                //    cmp.objectWorld = Matrix.CreateScale(cmp.scaleFactor)
-                //                    * Matrix.CreateTranslation(cmp.position + (float)System.Math.Sin(rot) *100*  new Vector3(rot, rot, rot));
-                //}
-                //else
-                //{
-                //    cmp.objectWorld = Matrix.CreateScale(cmp.scaleFactor)
-                //                     * Matrix.CreateTranslation(cmp.position);
-                //}
-                //rot += 0.002f;
-
 
                 cmp.objectWorld = Matrix.CreateScale(cmp.scaleFactor)
                                  * Matrix.CreateTranslation(cmp.position);
-
-                //cmp.world = cmp.objectWorld * cmp.world;
 
                 effect.World = cmp.objectWorld * cmp.world;
 
@@ -156,16 +139,13 @@ namespace GameEngine.Systems
                         int topRight = (x + 1) + (y + 1) * cmp.terrainWidth;
 
                         v1 = Vector3.Cross(cmp.vertices[topLeft].Position, cmp.vertices[lowerLeft].Position);
-                        //cmp.indices[counter++] = lowerRight;
-                        //cmp.indices[counter++] = lowerLeft;
+
 
                         v2 = Vector3.Cross(cmp.vertices[topRight].Position, cmp.vertices[lowerRight].Position);
 
                         cmp.vertices[lowerLeft].Normal = Vector3.Normalize(Vector3.Add(v1, cmp.vertices[lowerRight].Normal));
                         cmp.vertices[topRight].Normal = Vector3.Normalize(Vector3.Add(v2, cmp.vertices[lowerLeft].Normal));
-                        //cmp.indices[counter++] = topLeft;
-                        //cmp.indices[counter++] = topRight;
-                        //cmp.indices[counter++] = lowerRight;
+
                     }
                 }
         }
@@ -216,10 +196,7 @@ namespace GameEngine.Systems
 
         }
 
-        public void Update(GameTime gameTime)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 
 }
