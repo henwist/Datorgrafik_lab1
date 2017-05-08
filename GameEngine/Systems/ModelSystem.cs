@@ -14,9 +14,9 @@ namespace GameEngine.Systems
     {
         private static ModelSystem instance;
 
-        
+
         //public CameraComponent camera;
-        
+
 
         public static ModelSystem Instance
         {
@@ -30,7 +30,7 @@ namespace GameEngine.Systems
 
         public void LoadContent()
         {
-            
+
         }
 
         public void Update()
@@ -44,27 +44,29 @@ namespace GameEngine.Systems
                 ModelComponent m = ComponentManager.GetComponent<ModelComponent>(mC);
                 ChopperComponent chopper = ComponentManager.GetComponent<ChopperComponent>(mC);
 
-                Quaternion qX, qY;
-                //qy = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle));
-                //qx = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationX(chopper.rotorAngle));
+                Vector3 translation = m.chopperMeshWorldMatrices[0].Translation;
+                Matrix transform = m.model.Meshes[0].ParentBone.Transform;
 
-                qY = m.model.Meshes[0].ParentBone.Transform.Rotation * Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle));
-                qX = m.model.Meshes[2].ParentBone.Transform.Rotation * Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationX(chopper.rotorAngle));
+                m.model.Meshes[0].ParentBone.Transform *= -Matrix.CreateTranslation(translation);
+                //var x = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle)) * m.model.Meshes[0].ParentBone.Transform.Rotation;
+                Quaternion x = m.model.Meshes[0].ParentBone.Transform.Rotation * Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle));
 
-                qY.Normalize();
-                qX.Normalize();
+                x.Normalize();
+                Matrix x2 = Matrix.CreateFromQuaternion(x);
+                m.chopperMeshWorldMatrices[0] = x2;
 
-                m.chopperMeshWorldMatrices[0] = Matrix.CreateTranslation(m.chopperMeshWorldMatrices[0].Translation)
-                    //* Matrix.CreateRotationY(chopper.rotorAngle)
-                    * Matrix.CreateFromQuaternion(qY)
-                    * Matrix.CreateTranslation(-m.chopperMeshWorldMatrices[0].Translation);
 
-                m.chopperMeshWorldMatrices[1] = Matrix.CreateTranslation(Vector3.Zero);
+                var translation2 = m.chopperMeshWorldMatrices[2].Translation;
+                m.model.Meshes[2].ParentBone.Transform *= -Matrix.CreateTranslation(translation2);
 
-                m.chopperMeshWorldMatrices[2] = Matrix.CreateTranslation(m.chopperMeshWorldMatrices[2].Translation)
-                    //* Matrix.CreateRotationX(chopper.rotorAngle)
-                    * Matrix.CreateFromQuaternion(qX)
-                    * Matrix.CreateTranslation(-m.chopperMeshWorldMatrices[2].Translation);
+                //var y = Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationX(chopper.rotorAngle)) * m.model.Meshes[2].ParentBone.Transform.Rotation;
+
+                Quaternion y = m.model.Meshes[2].ParentBone.Transform.Rotation * Quaternion.CreateFromRotationMatrix(Matrix.CreateRotationY(chopper.rotorAngle));
+                y.Normalize();
+                
+                Matrix y2 = Matrix.CreateFromQuaternion(y);
+                m.chopperMeshWorldMatrices[2] = y2;
+
                 chopper.rotorAngle += .03f;
             }
         }
@@ -85,6 +87,7 @@ namespace GameEngine.Systems
                     Matrix.CreateFromQuaternion(transform.qRot) *
                     Matrix.CreateTranslation(transform.position);
 
+
                 m.model.CopyAbsoluteBoneTransformsTo(transforms);
 
                 for (int index = 0; index < m.model.Meshes.Count; index++)
@@ -95,6 +98,7 @@ namespace GameEngine.Systems
                         be.EnableDefaultLighting();
                         be.PreferPerPixelLighting = true;
 
+                        //be.World = mesh.ParentBone.Transform * Matrix.CreateFromQuaternion(m.chopperMeshWorldMatrices[index].Rotation) * worldMatrix;
                         be.World = mesh.ParentBone.Transform * m.chopperMeshWorldMatrices[index] * worldMatrix;
                         be.View = camera.viewMatrix;
                         be.Projection = camera.projectionMatrix;
@@ -157,7 +161,7 @@ namespace GameEngine.Systems
                 TransformComponent transform = ComponentManager.GetComponent<TransformComponent>(c);
                 ChopperComponent chopper = ComponentManager.GetComponent<ChopperComponent>(c);
 
-                
+
 
 
                 Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) *

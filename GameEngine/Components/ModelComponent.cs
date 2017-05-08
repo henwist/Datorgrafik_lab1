@@ -19,6 +19,7 @@ namespace GameEngine.Components
         public Matrix rotation { get; protected set; }
         public Matrix[] chopperMeshWorldMatrices { get; protected set; }
 
+
         public ModelComponent(Model m, float scale, Vector3 translation, 
                               float rotationx, float rotationy, float rotationz, bool chopper)
         {

@@ -16,6 +16,7 @@ namespace GameEngine.Components
         public float scale;
         //public float speed = 3f;
         public Vector3 speed = new Vector3(.1f, .1f, .1f);
+        public Vector3 forward, up, right;
 
         public TransformComponent(Vector3 pos, float rot, float scale)
         {
@@ -24,6 +25,10 @@ namespace GameEngine.Components
             this.scale = scale;
             World = Matrix.Identity;
             qRot = Quaternion.Identity;
+
+            forward = Vector3.Forward;
+            up = Vector3.Up;
+            right = Vector3.Right;
         }
     }
 }

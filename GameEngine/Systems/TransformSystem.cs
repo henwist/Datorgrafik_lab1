@@ -51,13 +51,13 @@ namespace GameEngine.Systems
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
-                    transform.position -= transform.speed.X * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Right;
+                    transform.position += transform.speed.X * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Right;
                     //transform.position.X += transform.speed.X * gameTime.ElapsedGameTime.Milliseconds;
                     //leftRightRot += turningSpeed;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
-                    transform.position += transform.speed.X * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Right;
+                    transform.position -= transform.speed.X * gameTime.ElapsedGameTime.Milliseconds * model.model.Root.Transform.Right;
                     //transform.position.X -= transform.speed.X * gameTime.ElapsedGameTime.Milliseconds;
                     //leftRightRot -= turningSpeed;
                 }
@@ -88,7 +88,6 @@ namespace GameEngine.Systems
 
                 Vector3 axis = Vector3.Zero;
                 float angle = (float)-gameTime.ElapsedGameTime.TotalMilliseconds * .01f;
-
                 
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Up))
@@ -132,6 +131,9 @@ namespace GameEngine.Systems
                 extraRot.Normalize();
                 
                 transform.qRot = extraRot;
+                transform.forward = Vector3.Transform(Vector3.Forward, extraRot);
+                transform.up = Vector3.Transform(Vector3.Up, extraRot);
+                transform.right = Vector3.Transform(Vector3.Right, extraRot);
 
                 //Quaternion extraRot = Quaternion.CreateFromAxisAngle(new Vector3(0, 0, -1), leftRightRot)
                 //                        * Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), upDownRot);
